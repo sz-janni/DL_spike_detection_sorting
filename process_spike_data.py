@@ -4,6 +4,7 @@ import csv
 from matplotlib import pyplot as plt
 from scipy import signal
 import multiprocessing as mp
+from detect_spikes import detect_spikes
 
 def load_labels(fname):
     with open(fname, 'r') as f:
@@ -23,7 +24,7 @@ def move_label_to_peak(data,labels_t,data_t):
         if len(found_peaks)<1:
             print('No peak found')
         else:
-            found_peak=found_peaks[0]
+            found_peak=found_peaks[0][0]
             all_peaks.append(found_peak+idx)
     return all_peaks
                 
@@ -62,7 +63,8 @@ def process_electrode_channels(start,end,threadnum,spikes):
                 pass
         labels=np.array(labels)
         labels_t=np.array(labels_t)
-        move_label_to_peak(data,labels_t,data_t)
+        labels_t=move_label_to_peak(data,labels_t,data_t)
+        found_peaks=detect_spikes(data,spikes['Fs'])
         # plt.plot(data_t,data)
         # labels_in_channel=np.unique(labels_t)
         # for l in labels_in_channel:

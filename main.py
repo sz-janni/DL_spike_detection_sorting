@@ -24,19 +24,23 @@ if __name__== '__main__':
 
     NUM_OF_THREADS_TO_START=1
     offset=int(np.floor(tot_channel_num/NUM_OF_THREADS_TO_START))
-    pool = mp.Pool(NUM_OF_THREADS_TO_START)
     print('Starting with '+str(NUM_OF_THREADS_TO_START)+' threads')
     print(str(offset)+ ' channels to process per thread')
-    processes=[]
-    t=1
-    for p in range(0,tot_channel_num,offset):
-        if p!=tot_channel_num-1:
-            processes.append(pool.apply_async(psd.process_electrode_channels, (p,p+offset,t,spikes,)))
-        else:
-            processes.append(pool.apply_async(psd.process_electrode_channels, (p,tot_channel_num,t,spikes,)))
-        t+=1
-    pool.close()
-    for p in processes:
-        p.get()
-    pool.join()
+    if NUM_OF_THREADS_TO_START==1:
+        psd.process_electrode_channels(0,0+offset,1,spikes)
+    else:
+        pool = mp.Pool(NUM_OF_THREADS_TO_START)
+
+        processes=[]
+        t=1
+        for p in range(0,tot_channel_num,offset):
+            if p!=tot_channel_num-1:
+                processes.append(pool.apply_async(psd.process_electrode_channels, (p,p+offset,t,spikes,)))
+            else:
+                processes.append(pool.apply_async(psd.process_electrode_channels, (p,tot_channel_num,t,spikes,)))
+            t+=1
+        pool.close()
+        for p in processes:
+            p.get()
+        pool.join()
     ('...Done') 
