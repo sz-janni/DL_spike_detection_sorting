@@ -11,21 +11,47 @@ def load_labels(fname):
         all_labels = tuple(csv.reader(f,delimiter=' '))
     return all_labels
 def move_label_to_peak(data,labels_t,data_t):
-    max_length_to_check_peak=100
+    max_length_to_check_peak=50
     gradient=np.gradient(data)
     all_peaks=[]
     for i in labels_t:
         idx=int(np.argwhere(i==data_t))
+        
+        #Gradient based peak moving
+        # gradient_pos=bool(gradient[idx]>0)
+        # if gradient_pos:
+        #     found_peaks=signal.find_peaks(data[idx:idx+max_length_to_check_peak])
+        # else:
+        #     found_peaks=signal.find_peaks(-1*data[idx:idx+max_length_to_check_peak])
+        # if len(found_peaks)<1:
+        #     print('No peak found')
+        # else:
+        #     found_peak=found_peaks[0][0]
+        #     all_peaks.append(found_peak+idx)
+        
+        #Higher peak based peak moving
         gradient_pos=bool(gradient[idx]>0)
         if gradient_pos:
-            found_peaks=signal.find_peaks(data[idx:idx+max_length_to_check_peak])
+            post_found_peak=signal.find_peaks(data[idx-2:idx+max_length_to_check_peak])
+            post_found_peak=post_found_peak[0][0]
+            pre_found_peak=signal.find_peaks(-1*data[idx-max_length_to_check_peak:idx+2])
+            pre_found_peak=pre_found_peak[0][-1]
+
+            
+            if abs(data[post_found_peak+(idx-2)])>abs(data[(idx-max_length_to_check_peak)+pre_found_peak]):
+                all_peaks.append(post_found_peak+(idx-2))
+            else:
+                all_peaks.append((idx-max_length_to_check_peak)+pre_found_peak)
         else:
-            found_peaks=signal.find_peaks(-1*data[idx:idx+max_length_to_check_peak])
-        if len(found_peaks)<1:
-            print('No peak found')
-        else:
-            found_peak=found_peaks[0][0]
-            all_peaks.append(found_peak+idx)
+            post_found_peak=signal.find_peaks(-1*data[idx-2:idx+max_length_to_check_peak])
+            post_found_peak=post_found_peak[0][0]
+            pre_found_peak=signal.find_peaks(data[idx-max_length_to_check_peak:idx+2])
+            pre_found_peak=pre_found_peak[0][-1]
+            if abs(data[post_found_peak+(idx-2)])>abs(data[(idx-max_length_to_check_peak)+pre_found_peak]):
+                all_peaks.append(post_found_peak+(idx-2))
+            else:
+                all_peaks.append((idx-max_length_to_check_peak)+pre_found_peak)
+
     return all_peaks
                 
 
