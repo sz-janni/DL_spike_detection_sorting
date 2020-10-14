@@ -33,9 +33,22 @@ def move_label_to_peak(data,labels_t,data_t):
         gradient_pos=bool(gradient[idx]>0)
         if gradient_pos:
             post_found_peak=signal.find_peaks(data[idx-2:idx+max_length_to_check_peak])
-            post_found_peak=post_found_peak[0][0]
             pre_found_peak=signal.find_peaks(-1*data[idx-max_length_to_check_peak:idx+2])
-            pre_found_peak=pre_found_peak[0][-1]
+            try:
+                post_found_peak=post_found_peak[0][0]
+            except:
+                try:
+                    pre_found_peak=pre_found_peak[0][-1]
+                    all_peaks.append((idx-max_length_to_check_peak)+pre_found_peak)
+                    continue
+                except:
+                    print('No peak found')
+                    continue
+            try:
+                pre_found_peak=pre_found_peak[0][-1]
+            except:
+                all_peaks.append(post_found_peak+(idx-2))
+                continue
 
             
             if abs(data[post_found_peak+(idx-2)])>abs(data[(idx-max_length_to_check_peak)+pre_found_peak]):
@@ -44,9 +57,24 @@ def move_label_to_peak(data,labels_t,data_t):
                 all_peaks.append((idx-max_length_to_check_peak)+pre_found_peak)
         else:
             post_found_peak=signal.find_peaks(-1*data[idx-2:idx+max_length_to_check_peak])
-            post_found_peak=post_found_peak[0][0]
             pre_found_peak=signal.find_peaks(data[idx-max_length_to_check_peak:idx+2])
-            pre_found_peak=pre_found_peak[0][-1]
+            try:
+                post_found_peak=post_found_peak[0][0]
+            except:
+                try:
+                    pre_found_peak=pre_found_peak[0][-1]
+                    all_peaks.append((idx-max_length_to_check_peak)+pre_found_peak)
+                    continue
+                except:
+                    print('No peak found')
+                    continue
+            try:
+                pre_found_peak=pre_found_peak[0][-1]
+            except:
+                all_peaks.append(post_found_peak+(idx-2))
+                continue
+                
+                
             if abs(data[post_found_peak+(idx-2)])>abs(data[(idx-max_length_to_check_peak)+pre_found_peak]):
                 all_peaks.append(post_found_peak+(idx-2))
             else:
@@ -59,7 +87,7 @@ def get_tot_channel_num(filename):
     with h5py.File(filename, "r") as f:
         data = f.get('signals')[0,:]
         data=np.array(data).shape[0]
-        return data
+    return data
 def load_channel(filename,channel_idx):
     with h5py.File(filename, "r") as f:
         data = f.get('signals')[:,channel_idx]
@@ -69,6 +97,7 @@ def adc_to_mv(adc):
     return 0.194708 * (adc - 32768.0)
 #Load electrode array channels one by one
 def process_electrode_channels(start,end,threadnum,spikes):
+    
     for i in range(start,end):
         if (i-start)%25==0:
             print(str(round((i-start)/(end-start)*100,1))+ '% of channels done for thread '+ str(threadnum))

@@ -5,7 +5,6 @@ import csv
 from matplotlib import pyplot as plt
 from scipy import signal
 import multiprocessing as mp
-
 if __name__== '__main__':
     spikes={}
     spikes['filename'] = "./data/synth_1152_bme.h5"
@@ -14,6 +13,7 @@ if __name__== '__main__':
     spikes['length_in_seconds']=50
     spikes['dt']=spikes['length_in_seconds']/spikes['Fs']
     all_labels=None
+    
 
     #Load all labels
     all_labels=psd.load_labels(spikes['filename_labels'])
@@ -22,7 +22,7 @@ if __name__== '__main__':
     tot_channel_num=psd.get_tot_channel_num(spikes['filename'])
     data=None
 
-    NUM_OF_THREADS_TO_START=1
+    NUM_OF_THREADS_TO_START=2
     offset=int(np.floor(tot_channel_num/NUM_OF_THREADS_TO_START))
     print('Starting with '+str(NUM_OF_THREADS_TO_START)+' threads')
     print(str(offset)+ ' channels to process per thread')
