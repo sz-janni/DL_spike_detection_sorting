@@ -6,6 +6,17 @@ from scipy import signal
 import multiprocessing as mp
 from detect_spikes import detect_spikes
 
+def extract_spike_waveforms(data,spike_labels):
+    all_waveforms=np.empty((len(spike_labels),40))
+    for idx,i in enumerate(spike_labels):
+        waveform=np.array(data[i-20:i+20],dtype=np.float32)
+        if len(waveform)<40:
+            zeropadding=np.zeros((40-len(waveform)))
+            waveform=np.hstack((waveform,zeropadding))
+        all_waveforms[idx]=waveform
+    return all_waveforms
+    
+    
 def load_labels(fname):
     with open(fname, 'r') as f:
         all_labels = tuple(csv.reader(f,delimiter=' '))
@@ -97,7 +108,11 @@ def adc_to_mv(adc):
     return 0.194708 * (adc - 32768.0)
 #Load electrode array channels one by one
 def process_electrode_channels(start,end,threadnum,spikes):
-    
+    ap_length=40
+    all_aps=len(spikes['all_labels'])
+    all_waveforms=np.empty((all_aps,ap_length),dtype=np.float32)
+    all_labels=[]
+    counter=0
     for i in range(start,end):
         if (i-start)%25==0:
             print(str(round((i-start)/(end-start)*100,1))+ '% of channels done for thread '+ str(threadnum))
@@ -108,18 +123,32 @@ def process_electrode_channels(start,end,threadnum,spikes):
         data_t=data_t/spikes['Fs']
         labels=[]
         labels_t=[]
-        for row in spikes['all_labels']:
+        idxs_to_delete=[]
+        for rowidx,row in enumerate(spikes['all_labels']):
             row=list(filter(lambda x:x!='', row))  
             try:
                 if int(row[3])==i+1:
                     labels.append(int(row[4]))
                     labels_t.append(float(row[0]))
+                    idxs_to_delete.append(rowidx)
+                    
             except:
                 pass
+        for k,idx in enumerate(idxs_to_delete):
+            #Deletion of earlier elements shifts idxs
+            spikes['all_labels'].pop(idx-k)
+                    
+                
         labels=np.array(labels)
         labels_t=np.array(labels_t)
         labels_t=move_label_to_peak(data,labels_t,data_t)
-        found_peaks=detect_spikes(data,spikes['Fs'])
+        #found_peaks=detect_spikes(data,spikes['Fs'])
+        waveforms=extract_spike_waveforms(data,labels_t)
+        num_ap_waveforms=waveforms.shape[0]
+        all_waveforms[counter:counter+num_ap_waveforms]=waveforms
+        all_labels.append(labels)
+        counter+=num_ap_waveforms
+    return all_waveforms[~np.all(all_waveforms == 0, axis=1)],all_labels
         # plt.plot(data_t,data)
         # labels_in_channel=np.unique(labels_t)
         # for l in labels_in_channel:
