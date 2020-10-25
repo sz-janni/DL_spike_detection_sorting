@@ -9,5 +9,5 @@ Adaptive spike detection algorithm (https://www.hindawi.com/journals/cin/2010/65
 (Currently not used adaptively)
 ## Train_test_val_split_Spike.ipynb
 Splits dataset into training, testing, validation.
-## Visualize.ipynb
+## Visualisation.ipynb
 Extract waveform features, calculate basis statistics, PCA and visualize
