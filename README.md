@@ -7,3 +7,5 @@ Functions to load hdf5 and spt files, match labels to data, plot and change labe
 ## Detect_spikes.py
 Adaptive spike detection algorithm (https://www.hindawi.com/journals/cin/2010/659050/)
 (Currently not used adaptively)
+## Train_test_val_split_Spike.ipynb
+Splits dataset into training, testing, validation.
