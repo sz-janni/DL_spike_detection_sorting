@@ -88,10 +88,12 @@ for _ in range(3):
 
         # Evaluate the model accuracy on the validation set.
     score = model.evaluate(x_test, y_test, verbose=1)
-    end_time=time.time()
-    elapsed_time=end_time-start_time
+
     logprint('Accuracy: '+ str(score[1]),logfile)
     logprint('ROCAUC: '+ str(score[2]),logfile)
-    logprint('Elapsed time: '+str(timedelta(seconds=elapsed_time)),logfile)
+end_time=time.time()
+elapsed_time=end_time-start_time
+logprint('Elapsed time: '+str(timedelta(seconds=elapsed_time)),logfile)
+logfile.close()
     #sys.stdout = sys.__stdout__
 #print(tf.config.list_physical_devices('GPU'))
