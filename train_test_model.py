@@ -38,16 +38,28 @@ def stratified_train_test_val_split(data,labels,train=0.05,test=0.9,val=0.05,ran
         testX, testY=data[test_index],labels[test_index]
         valX, valY=data[val_idx],labels[val_idx]
     return trainX,trainY,valX,valY,testX,testY
+
+## SETTINGS
+#Number of hyperparameter optimization trials
+N_TRIALS=2
+#Number of repetitions for training and testing the optimized model, 1 equals no repeats
+N_REPEATS=1
+#Percentage of data to use for training, use max 0.1, as test is always 0.85 and validation is always 0.05
+TRAIN_SIZE=0.05
+
 data_path='./spike_waveform_data.pickle'
 label_path='./spike_waveform_labels.pickle'
 start_time=time.time()
 #sys.stdout = 
 logfile=open('./results/logging.log', 'w')
+logprint('Running script...',logfile)
+
+# Load, sort and preprocess data
 data = pd.read_pickle(data_path)
 labels = pd.read_pickle(label_path)
 lb=LabelBinarizer()
 labels=lb.fit_transform(labels)
-x_train,y_train,x_val,y_val,x_test,y_test=stratified_train_test_val_split(data,labels)
+x_train,y_train,x_val,y_val,x_test,y_test=stratified_train_test_val_split(data,labels,train=TRAIN_SIZE)
 scaler = MinMaxScaler()
 scaler=scaler.fit(x_train)
 x_train=scaler.transform(x_train)
@@ -56,10 +68,11 @@ x_test=scaler.transform(x_test)
 x_train=np.reshape(x_train,(-1,1,40))
 x_val=np.reshape(x_val,(-1,1,40))
 x_test=np.reshape(x_test,(-1,1,40))
-#HYPOPT
-best_params=opt_cnn(x_train,y_train,x_val,y_val)
-#Possible rerun for bad start
-for _ in range(3):
+
+#Optimize hyperparameters
+best_params=opt_cnn(x_train,y_train,x_val,y_val,N_TRIALS)
+#Train and test optimized model with possible reruns
+for _ in range(N_REPEATS):
     batch_size=best_params['batch_size']
     input_shape=(batch_size,1,40)
     model = keras.Sequential()

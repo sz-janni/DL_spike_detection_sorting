@@ -4,7 +4,7 @@ from tensorflow import keras
 from tensorflow.keras import layers
 import numpy as np
 import logging
-def opt_cnn(x_train,y_train,x_val,y_val):
+def opt_cnn(x_train,y_train,x_val,y_val,n_trials):
     def objective(trial):
         #batch_size=round(len(x_train)/10)
         batch_size=trial.suggest_categorical('batch_size',[128,256])
@@ -57,7 +57,7 @@ def opt_cnn(x_train,y_train,x_val,y_val):
     optuna.logging.enable_propagation()  # Propagate logs to the root logger.
     optuna.logging.disable_default_handler() 
     study = optuna.create_study(direction='maximize',sampler = optuna.samplers.TPESampler(seed=10,multivariate=True,n_startup_trials=10)) #TPESampler
-    study.optimize(objective, n_trials=100)
+    study.optimize(objective, n_trials=n_trials)
     plot_par_cor=optuna.visualization.plot_parallel_coordinate(study)
     plot_import=optuna.visualization.plot_param_importances(study)
     plot_history=optuna.visualization.plot_optimization_history(study)
