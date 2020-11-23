@@ -9,7 +9,7 @@ from tensorflow import keras
 from tensorflow.keras import layers
 import sys
 import time
-from datetime import timedelta
+from datetime import timedelta,datetime
 
 def logprint(text,file,end='\n'):
     print(text,file=file,flush=True,end=end)
@@ -51,8 +51,12 @@ data_path='./spike_waveform_data.pickle'
 label_path='./spike_waveform_labels.pickle'
 start_time=time.time()
 #sys.stdout = 
-logfile=open('./results/logging.log', 'w')
+dt=datetime.now()
+logfile=open('./results/logging_'+str(dt)+'.log', 'w')
 logprint('Running script...',logfile)
+logprint('Hyperparameter optimization trials: '+str(N_TRIALS),logfile)
+logprint('Number of repeats to train test final model: '+str(N_REPEATS),logfile)
+logprint('Training data percentage: '+str(TRAIN_SIZE),logfile)
 
 # Load, sort and preprocess data
 data = pd.read_pickle(data_path)
@@ -70,7 +74,7 @@ x_val=np.reshape(x_val,(-1,1,40))
 x_test=np.reshape(x_test,(-1,1,40))
 
 #Optimize hyperparameters
-best_params=opt_cnn(x_train,y_train,x_val,y_val,N_TRIALS)
+best_params=opt_cnn(x_train,y_train,x_val,y_val,N_TRIALS,dt)
 #Train and test optimized model with possible reruns
 for _ in range(N_REPEATS):
     batch_size=best_params['batch_size']

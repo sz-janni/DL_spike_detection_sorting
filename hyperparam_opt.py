@@ -4,7 +4,7 @@ from tensorflow import keras
 from tensorflow.keras import layers
 import numpy as np
 import logging
-def opt_cnn(x_train,y_train,x_val,y_val,n_trials):
+def opt_cnn(x_train,y_train,x_val,y_val,n_trials,dt):
     def objective(trial):
         #batch_size=round(len(x_train)/10)
         batch_size=trial.suggest_categorical('batch_size',[128,256])
@@ -52,7 +52,7 @@ def opt_cnn(x_train,y_train,x_val,y_val,n_trials):
     logger = logging.getLogger()
 
     logger.setLevel(logging.INFO)  # Setup the root logger.
-    logger.addHandler(logging.FileHandler("./results/optuna_logs/Optuna.log", mode="w"))
+    logger.addHandler(logging.FileHandler("./results/optuna_logs/optuna_"+str(dt)+".log", mode="w"))
 
     optuna.logging.enable_propagation()  # Propagate logs to the root logger.
     optuna.logging.disable_default_handler() 
@@ -61,9 +61,9 @@ def opt_cnn(x_train,y_train,x_val,y_val,n_trials):
     plot_par_cor=optuna.visualization.plot_parallel_coordinate(study)
     plot_import=optuna.visualization.plot_param_importances(study)
     plot_history=optuna.visualization.plot_optimization_history(study)
-    plot_par_cor.write_html("./results/optuna_logs/par_cor_cv_.html")
-    plot_import.write_html("./results//optuna_logs/importance_cv_.html")
-    plot_history.write_html("./results//optuna_logs/history_cv_.html")
+    plot_par_cor.write_html("./results/optuna_logs/par_cor_cv_"+str(dt)+".html")
+    plot_import.write_html('./results//optuna_logs/importance_cv_'+str(dt)+'.html')
+    plot_history.write_html('./results//optuna_logs/history_cv_'+str(dt)+'.html')
     return study.best_params
 def opt_autoencoder():
     def objective(trial):
