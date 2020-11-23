@@ -1,0 +1,7 @@
+Running script...
+Hyperparameter optimization trials: 2
+Number of repeats to train test final model: 1
+Training data percentage: 0.05
+Accuracy: 0.9724125266075134
+ROCAUC: 0.9990928173065186
+Elapsed time: 0:14:15.267837
