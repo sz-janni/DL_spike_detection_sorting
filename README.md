@@ -1,5 +1,9 @@
 # DL_spike_detection_sorting
 Spike detection and sorting using deep learning
+# Usage
+Run train_test_model.py
+To lower runtime decrease setting variables N_TRIALS and N_REPEATS
+# Scripts
 ## Main_preprocess.py
 Process spike data with multithread option
 ## Process_spike_data.py
@@ -15,9 +19,7 @@ Optimize neural network hyperparameters using Optuna and TPE sampling
 Splits dataset into training, testing, validation.
 ## Visualisation.ipynb
 Extract waveform features, calculate basis statistics, PCA and visualize
-# Usage
-Run train_test_model.py
-To lower runtime decrease setting variables N_TRIALS and N_REPEATS
+
 
 
 
