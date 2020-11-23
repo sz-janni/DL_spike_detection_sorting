@@ -41,7 +41,7 @@ def stratified_train_test_val_split(data,labels,train=0.05,test=0.9,val=0.05,ran
 
 ## SETTINGS
 #Number of hyperparameter optimization trials
-N_TRIALS=2
+N_TRIALS=15
 #Number of repetitions for training and testing the optimized model, 1 equals no repeats
 N_REPEATS=1
 #Percentage of data to use for training, use max 0.1, as test is always 0.85 and validation is always 0.05
