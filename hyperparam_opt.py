@@ -10,6 +10,8 @@ def opt_cnn(x_train,y_train,x_val,y_val,n_trials,dt):
         batch_size=trial.suggest_categorical('batch_size',[128,256])
         input_shape=(batch_size,1,40)
         #x = keras.backend.random_normal(input_shape)
+
+        #Create architecture with configuration options
         model = keras.Sequential()
         model.add(layers.Conv1D(filters=trial.suggest_int('filters', 3, 15),
                       padding='same',
@@ -44,8 +46,10 @@ def opt_cnn(x_train,y_train,x_val,y_val,n_trials,dt):
         verbose=False,
         )
 
-    # Evaluate the model accuracy on the validation set.
+    # Evaluate the model performance on the validation set.
         score = model.evaluate(x_val, y_val, verbose=0)
+
+        #Average accuracy and AUC
         score=(score[1]+score[2])/2
         return score
 
@@ -58,6 +62,8 @@ def opt_cnn(x_train,y_train,x_val,y_val,n_trials,dt):
     optuna.logging.disable_default_handler() 
     study = optuna.create_study(direction='maximize',sampler = optuna.samplers.TPESampler(seed=10,multivariate=True,n_startup_trials=10)) #TPESampler
     study.optimize(objective, n_trials=n_trials)
+
+    #Visualize hyperparameter optimization
     plot_par_cor=optuna.visualization.plot_parallel_coordinate(study)
     plot_import=optuna.visualization.plot_param_importances(study)
     plot_history=optuna.visualization.plot_optimization_history(study)
