@@ -1,5 +1,4 @@
 .vscode/settings.json
 *.pickle
 data/
-results/
 __pycache__/
