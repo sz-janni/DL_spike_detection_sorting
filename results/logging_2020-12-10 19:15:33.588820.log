@@ -1,0 +1,15 @@
+Running script...
+Hyperparameter optimization trials: 120
+Number of repeats to train test final model: 5
+Train size: 0.05%
+Accuracy: 0.917989211001539
+Train size: 0.1%
+Accuracy: 0.927247239724062
+Train size: 0.5%
+Accuracy: 0.944916181567162
+Train size: 1.0%
+Accuracy: 0.948407361626278
+Train size: 5.0%
+Accuracy: 0.9498131987184626
+Train size: 10.0%
+Accuracy: 0.9548420289796196

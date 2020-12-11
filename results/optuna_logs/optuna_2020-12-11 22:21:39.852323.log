@@ -1,0 +1,4 @@
+A new study created in memory with name: no-name-39b70d71-0ade-41b3-b67f-a9500d6c4e3f
+From /home/latlab/anaconda3/envs/tf-gpu/lib/python3.8/site-packages/tensorflow/python/ops/resource_variable_ops.py:1813: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.

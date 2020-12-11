@@ -1,0 +1,12 @@
+Running script...
+Hyperparameter optimization trials: 120
+Number of repeats to train test final model: 5
+Train size: 0.05%
+Accuracy: 0.35355180501937866
+ROCAUC: 0.7160616517066956
+Accuracy: 0.920913815498352
+ROCAUC: 0.9943497776985168
+Accuracy: 0.9132357835769653
+ROCAUC: 0.9933174848556519
+Accuracy: 0.9204314351081848
+ROCAUC: 0.9939317107200623
