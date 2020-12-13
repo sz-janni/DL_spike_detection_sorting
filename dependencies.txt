@@ -10,5 +10,6 @@ cudnn=7.6.5
 cudatoolkit=10.1.243
 hdf5=1.10.4
 h5py=2.10.0
+pyclustering=0.10.1.2
 
 python=3.8.5
