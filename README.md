@@ -4,7 +4,7 @@
 <img src="https://www.flaticon.com/svg/static/icons/svg/1756/1756394.svg" align="right"
      alt="Logo" width="120" height="178">
 
-![GitHub issues](https://img.shields.io/github/issues/sz-janni/DL_spike_detection_sorting) ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/sz-janni/DL_spike_detection_sorting) ![Bitbucket open pull requests](https://img.shields.io/bitbucket/pr/sz-janni/DL_spike_detection_sorting) ![GitHub repo size](https://img.shields.io/github/repo-size/sz-janni/DL_spike_detection_sorting)
+![GitHub issues](https://img.shields.io/github/issues/sz-janni/DL_spike_detection_sorting) ![GitHub repo size](https://img.shields.io/github/repo-size/sz-janni/DL_spike_detection_sorting)
 
 ## Team info
 ![Bitbucket open pull requests](https://img.shields.io/badge/team%20name-TaR%C3%A9J-blue)
