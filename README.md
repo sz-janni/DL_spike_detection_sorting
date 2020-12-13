@@ -21,6 +21,7 @@
   - [Download data](https://drive.google.com/file/d/1nkpakzO_nnagPe9n4FDsBOYkRBOdb7M6/view?usp=sharing)
   - [Download labels](https://drive.google.com/file/d/1D36Y5mtn6yx4nS_54DVUyf_F0Sk3tV09/view?usp=sharing)
 - Copy files into main folder
+- Install libararies from dependencies.txt (using conda if available, pip if not)
 - Run train_test_model.py
 
 To lower runtime decrease setting variables N_TRIALS and N_REPEATS
