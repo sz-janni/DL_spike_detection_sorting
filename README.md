@@ -17,12 +17,12 @@
 
 ## Data and setup
 
-Download data and labels from:\
-https://drive.google.com/file/d/1nkpakzO_nnagPe9n4FDsBOYkRBOdb7M6/view?usp=sharing \
-and\
-https://drive.google.com/file/d/1D36Y5mtn6yx4nS_54DVUyf_F0Sk3tV09/view?usp=sharing \
-Copy files into main folder \
-Run train_test_model.py \
+- Download data and labels from:
+  - https://drive.google.com/file/d/1nkpakzO_nnagPe9n4FDsBOYkRBOdb7M6/view?usp=sharing
+  - https://drive.google.com/file/d/1D36Y5mtn6yx4nS_54DVUyf_F0Sk3tV09/view?usp=sharing
+- Copy files into main folder
+- Run train_test_model.py
+
 To lower runtime decrease setting variables N_TRIALS and N_REPEATS
 
 ## Final report
