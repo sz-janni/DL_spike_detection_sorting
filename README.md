@@ -26,7 +26,7 @@
 
 To lower runtime decrease setting variables N_TRIALS and N_REPEATS
 ## Presentation
-The pdf version of the presentation can be found at [spike_sorting_dl_presentation.df](https://github.com/sz-janni/DL_spike_detection_sorting/blob/main/spike_sorting_dl_presentation.pdf).
+The pdf version of the presentation can be found at [spike_sorting_dl_presentation.df](https://github.com/sz-janni/DL_spike_detection_sorting/blob/main/spike_sorting_dl_presentation.pdf). \
 The presentation video can be found at https://www.youtube.com/watch?v=851Q9UXoT5E
 
 ## Final report
